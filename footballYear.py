@@ -40,14 +40,18 @@ def grabData():
     #this is where we need to clean up the player names in our list before we make the dataframe, this is our regex /[A-Z]\W.[a-z][a-z](.+?)'
     #or this /[A-Z]\W\S[A-Z].+
     #regex = re.compile("/[A-Z]\W.[a-z][a-z](.+?)'$")
-    regex = re.compile("/[A-Z]\W\S[A-Z].+'$")
+    regex = re.compile("[A-Z]\W.[A-Z].+")
+    # for a in projectionColumn:
+    #     newNames = [a[0]]
+    #     #filtered = [i for i in newNames if not regex.match(i)]
+    #     filtered = filter(None, [re.sub(regex, r"", i) for i in newNames])
+    #     for b in filtered:
+    #         print(b)
     for a in projectionColumn:
-        newNames = [a[0]]
-        #filtered = [i for i in newNames if not regex.match(i)]
-        filtered = filter(None, [re.sub(regex, r"", i) for i in newNames])
-        for b in filtered:
-            print(b)
-        
+        new_name = a[0]
+        filtered = re.sub(regex, "", new_name)
+        if filtered:
+            print(filtered)  
 grabData()
 #print(projectionColumn)
 #after we get the headers and the table data we will put it into a pandas dataframe
