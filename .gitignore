@@ -1,1 +1,4 @@
 *.history/
+chromedriver
+geckodriver.log
+LICENSE.chromedriver

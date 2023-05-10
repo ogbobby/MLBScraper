@@ -4,6 +4,7 @@ from bs4 import BeautifulSoup
 import pandas as pd
 from urllib.request import Request, urlopen
 import requests
+import re
 
 projectionHeader = []
 projectionColumn = []
@@ -36,10 +37,19 @@ def grabData():
         cols = row.find_all('td')
         cols = [ele.text.strip() for ele in cols]
         projectionColumn.append(cols)
-    #this is where we need to clean up the player names in our list before we make the dataframe
+    #this is where we need to clean up the player names in our list before we make the dataframe, this is our regex /[A-Z]\W.[a-z][a-z](.+?)'
+    #or this /[A-Z]\W\S[A-Z].+
+    #regex = re.compile("/[A-Z]\W.[a-z][a-z](.+?)'$")
+    regex = re.compile("/[A-Z]\W\S[A-Z].+'$")
     for a in projectionColumn:
-        print(a[0])
+        newNames = [a[0]]
+        #filtered = [i for i in newNames if not regex.match(i)]
+        filtered = filter(None, [re.sub(regex, r"", i) for i in newNames])
+        for b in filtered:
+            print(b)
+        
 grabData()
+#print(projectionColumn)
 #after we get the headers and the table data we will put it into a pandas dataframe
 #df = pd.DataFrame(projectionColumn, columns=projectionHeader)
 #print(df)
